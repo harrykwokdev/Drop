@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0b16">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%236366f1'/%3E%3Cpath d='M55 18 30 56h16l-6 26 26-40H50z' fill='white'/%3E%3C/svg%3E">
+    <title>Drop · 文件传输</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-mesh"></div>
+    <div class="bg-grid"></div>
+
+    <div class="page">
+
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-logo"><i class="fas fa-bolt"></i></div>
+                <div>
+                    <div class="brand-name">Drop</div>
+                    <div class="brand-tag">快速、私密的文件传输</div>
+                </div>
+            </div>
+            <div class="header-pills">
+                <span class="status-pill" id="conn-pill">
+                    <span class="dot"></span>
+                    <span id="conn-text">连接中…</span>
+                </span>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+
+            <!-- 上传区 -->
+            <section class="card card-upload">
+                <div class="card-header">
+                    <i class="fas fa-cloud-arrow-up"></i> 上传文件
+                </div>
+                <div class="card-content card-upload-content">
+                    <div id="drop-zone" class="drop-zone" tabindex="0" role="button"
+                         aria-label="拖拽文件到此处或点击选择文件">
+                        <div class="upload-icon"><i class="fas fa-cloud-arrow-up"></i></div>
+                        <div class="upload-desc">拖拽文件到此处，或点击选择</div>
+                        <div class="upload-hint">支持任意类型 · 单文件最大 10 GB</div>
+                        <button id="select-files" class="main-btn" type="button">
+                            <i class="fas fa-folder-open"></i> 选择文件
+                        </button>
+                        <input id="file-input" type="file" multiple>
+                    </div>
+                    <!-- 待上传队列由 JS 动态注入 -->
+                </div>
+            </section>
+
+            <!-- 任务区 -->
+            <section class="card card-tasks">
+                <div class="card-header">
+                    <i class="fas fa-list-check"></i> 传输任务
+                </div>
+                <div class="card-content">
+                    <div id="task-status">
+                        <div class="task-status-empty">
+                            <i class="fas fa-inbox"></i>
+                            暂无任务
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 文件列表区 -->
+            <section class="card card-files">
+                <div class="card-header">
+                    <i class="fas fa-folder"></i> 已上传文件
+                    <span class="count" id="file-count">0</span>
+                </div>
+                <div class="card-content">
+                    <div id="no-files" class="no-files">
+                        <i class="fas fa-folder-open"></i>
+                        还没有文件，上传一个试试吧
+                    </div>
+                    <div id="files-grid" class="files-grid"></div>
+                </div>
+            </section>
+
+            <!-- 连接信息 -->
+            <section class="card card-connection">
+                <div class="card-header">
+                    <i class="fas fa-wifi"></i> 连接信息
+                </div>
+                <div class="card-content">
+                    <div class="connection-row">
+                        <span id="local-badge" class="connection-badge">本地</span>
+                        <span id="local-url" class="connection-url">未获取到</span>
+                    </div>
+                    <div class="connection-row">
+                        <span id="ngrok-badge" class="connection-badge badge-ngrok">公网</span>
+                        <span id="ngrok-url" class="connection-url">未获取到</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div class="notification-stack" id="notification-stack"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
